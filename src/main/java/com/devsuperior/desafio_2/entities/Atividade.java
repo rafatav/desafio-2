@@ -2,6 +2,8 @@ package com.devsuperior.desafio_2.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,8 +18,18 @@ public class Atividade {
 
     @Column(columnDefinition = "TEXT")
     private String descricao;
-    
+
     private Double preco;
+
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
+    @ManyToMany(mappedBy = "atividades")
+    private List<Participante> participantes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "atividade")
+    private List<Bloco> blocos = new ArrayList<>();
 
     public Atividade() {
     }
@@ -59,6 +71,14 @@ public class Atividade {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public List<Participante> getParticipantes() {
+        return participantes;
     }
 
     @Override

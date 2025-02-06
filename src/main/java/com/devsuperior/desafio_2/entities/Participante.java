@@ -2,6 +2,8 @@ package com.devsuperior.desafio_2.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +18,12 @@ public class Participante {
 
     @Column(unique = true)
     private String email;
+
+    @ManyToMany
+    @JoinTable(name = "tb_participante_atividade",
+        joinColumns = @JoinColumn(name = "participante_id"),
+        inverseJoinColumns = @JoinColumn(name = "atividade_id"))
+    private List<Atividade> atividades = new ArrayList<>();
 
     public Participante() {
     }
@@ -48,6 +56,10 @@ public class Participante {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Atividade> getAtividades() {
+        return atividades;
     }
 
     @Override
